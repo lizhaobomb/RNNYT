@@ -13,5 +13,14 @@ export const COMMON_STYLES = StyleSheet.create({
   text: {
     color: TEXT_COLOR,
     fontFamily: 'Helvetica Neue'
+  },
+  pageContainer: {
+    backgroundColor: BG_COLOR,
+    flex: 1,
+    marginTop: 50,
+    paddingTop: 20,
+    marginBottom: 48,
+    marginHorizontal: 0,
+    paddingHorizontal: 10
   }
 })
