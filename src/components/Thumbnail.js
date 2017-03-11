@@ -14,21 +14,23 @@ const Thumbnail = ({url, titleText, accentColor, style}) => {
 
   return (
     <View style={[styles.container, {borderColor: accentColor}, style]}>
-    (
-      url.length > 0
-      ? (
-          <Image
-            style={[styles.image]}
-            source={{uri:url}}>
-            {TitleComponent}
-          </Image>
-        )
-      : (
-          <View style={[styles.image, imageStyle]}>
-            {TitleComponent}
-          </View>
-        )
-    )
+
+      {
+        url.length > 0
+        ? (
+            <Image
+              style={[styles.image]}
+              source={{uri:url}}>
+              {TitleComponent}
+            </Image>
+          )
+        : (
+            <View style={[styles.image, imageStyle]}>
+              {TitleComponent}
+            </View>
+          )
+      }
+
     </View>
   )
 }
@@ -40,7 +42,7 @@ Thumbnail.propTypes = {
   accentColor: PropTypes.string.isRequired
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     borderBottomWidth: 3,
     borderStyle: 'solid'

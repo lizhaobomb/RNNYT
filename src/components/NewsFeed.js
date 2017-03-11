@@ -8,7 +8,8 @@ import {
   WebView
 } from 'react-native'
 import * as globalStyles from '../styles/global'
-
+import SmallText from './SmallText'
+import NewsItem from './NewsItem'
 export default class NewsFeed extends Component {
 
   constructor(props){
@@ -25,11 +26,28 @@ export default class NewsFeed extends Component {
     this.onModalOpen = this.onModalOpen.bind(this)
     this.onModalClose = this.onModalClose.bind(this)
     this.renderRow = this.renderRow.bind(this)
+    this.refresh = this.refresh.bind(this)
+  }
+
+  componentWillMount() {
+    this.refresh()
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows(nextProps.news)
+    })
+  }
+
+  refresh() {
+    if (this.props.loadNews) {
+      this.props.loadNews()
+    }
   }
 
   render(){
     return (
-      <View style={styles.COMMON_STYLES.pageContainer}>
+      <View style={globalStyles.COMMON_STYLES.pageContainer}>
         <ListView
           enableEmptySections
           dataSource={this.state.dataSource}
@@ -47,16 +65,17 @@ export default class NewsFeed extends Component {
         visible={this.state.modalVisible}
         onRequestClose={this.onModalClose}
         animationType='slide'
+        style = {{color:'red'}}
       >
         <View style={styles.modalContent}>
           <TouchableOpacity
-            onPress={this.onModalClose}>
+            onPress={this.onModalClose}
             style={styles.closeButton}>
             <SmallText>Close</SmallText>
           </TouchableOpacity>
           <WebView
             scalesPageToFit
-            source:{{uri:this.state.modalUrl}}
+            source={{uri:this.state.modalUrl}}
           />
         </View>
       </Modal>
@@ -76,6 +95,7 @@ export default class NewsFeed extends Component {
   }
 
   onModalOpen(url) {
+    console.log(url)
     this.setState({
       modalVisible: true,
       modalUrl: url
@@ -91,32 +111,33 @@ export default class NewsFeed extends Component {
 
 NewsFeed.propTypes = {
   news: PropTypes.arrayOf(PropTypes.object),
-  listStyles: View.propTypes.style
+  listStyles: View.propTypes.style,
+  refresh: PropTypes.func
 }
 
-NewsFeed.defaultProps = {
-  news:[
-    {
-      title: 'React Native',
-      imageUrl: 'https://facebook.github.io/react/img/logo_og.png',
-      description: 'Build Native Mobile Apps using JavaScript and React',
-      author: 'Facebook',
-      location: 'Menlo Park, California',
-      url: 'https://facebook.github.io/react-native'
-    },
-    {
-      title: 'Packt Publishing',
-      imageUrl: 'https://www.packtpub.com/sites/default/files/packt_logo.png',
-      description: 'Stay Relevant',
-      date: new Date()
-      author: 'Packt Publishing',
-      location: 'Birmingham, UK',
-      url: 'https://www.packtpub.com/'
-    },
-  ]
-}
+// NewsFeed.defaultProps = {
+//   news:[
+//     {
+//       title: 'React Native',
+//       imageUrl: 'https://facebook.github.io/react/img/logo_og.png',
+//       description: 'Build Native Mobile Apps using JavaScript and React',
+//       author: 'Facebook',
+//       location: 'Menlo Park, California',
+//       url: 'https://facebook.github.io/react-native'
+//     },
+//     {
+//       title: 'Packt Publishing',
+//       imageUrl: 'https://www.packtpub.com/sites/default/files/packt_logo.png',
+//       description: 'Stay Relevant',
+//       date: new Date(),
+//       author: 'Packt Publishing',
+//       location: 'Birmingham, UK',
+//       url: 'https://www.packtpub.com/'
+//     },
+//   ]
+// }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   newsItem: {
     marginBottom: 20
   },

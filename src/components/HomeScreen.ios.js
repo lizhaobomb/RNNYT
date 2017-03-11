@@ -1,4 +1,4 @@
-import React, {PropTypes, Component} from 'react'
+import React, {Component} from 'react'
 import {
   TabBarIOS,
   Text,
@@ -6,14 +6,15 @@ import {
   Alert,
   StatusBar
 } from 'react-native'
-import NewsFeed from './NewsFeed'
+
+import NewsFeedContainer from '../containers/NewsFeedContainer'
 import Search from './Search'
 import * as globalStyles from '../styles/global'
 
 //set the status bar for ios to light
 StatusBar.setBarStyle('light-content')
 
-export default clase HomeScreen extends Component {
+export default class HomeScreen extends Component {
 
   constructor(props) {
     super(props)
@@ -34,33 +35,35 @@ export default clase HomeScreen extends Component {
   }
 
   render() {
-    <TabBarIOS
-      barTintColor={globalStyles.BAR_COLOR}
-      tintColor={globalStyles.LINK_COLOR}
-      translucent={false}
-    >
-      <TabBarIOS.Item
+    return(
+      <TabBarIOS
+        barTintColor={globalStyles.BAR_COLOR}
+        tintColor={globalStyles.LINK_COLOR}
+        translucent={false}
+        >
+        <TabBarIOS.Item
         selected={this.state.tab === 'newsFeed'}
         onPress = {() => this.setState({tab: 'newsFeed'})}
         badge={4}
         systemIcon={'featured'}
-      >
-        <NewsFeed />
-      </TabBarIOS.Item>
-      <TabBarIOS.Item
+        >
+        <NewsFeedContainer />
+        </TabBarIOS.Item>
+        <TabBarIOS.Item
         selected={this.state.tab === 'search'}
         onPress = {() => this.setState({tab: 'search'})}
         systemIcon={'search'}
-      >
+        >
         <Search />
-      </TabBarIOS.Item>
-      <TabBarIOS.Item
+        </TabBarIOS.Item>
+        <TabBarIOS.Item
         selected={this.state.tab === 'bookmarks'}
         onPress = {() => this.setState({tab: 'bookmarks'})}
         systemIcon={'bookmarks'}
-      >
+        >
         <Text>Bookmarks</Text>
-      </TabBarIOS.Item>
-    </TabBarIOS>
+        </TabBarIOS.Item>
+      </TabBarIOS>
+    )
   }
 }

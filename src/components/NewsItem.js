@@ -44,12 +44,13 @@ export default class NewsItem extends Component {
 			<TouchableOpacity
 				style={style}
 				onPress={onPress}
-				onLongPress={this.onLongPress}>
+				onLongPress={this.onLongPress}
+			>
 				<View>
 					<Thumbnail
-						url={imageUrl},
-						titleText={title},
-						accentColor={accentColor},
+						url={imageUrl}
+						titleText={title}
+						accentColor={accentColor}
 						style={styles.thumbnail}
 						/>
 					<View style={styles.content}>
@@ -70,7 +71,7 @@ NewsItem.propTypes = {
 	imageUrl: PropTypes.string,
 	title: PropTypes.string.isRequired,
 	description: PropTypes.string,
-	date: PropTypes.instanceOf(Date).isRequired,
+	date: PropTypes.string.isRequired,
 	author: PropTypes.string.isRequired,
 	location: PropTypes.string,
 	index: PropTypes.number.isRequired,
@@ -78,7 +79,7 @@ NewsItem.propTypes = {
 	style: View.propTypes.style
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
 	thumbnail: {
 		marginBottom: 5
 	},

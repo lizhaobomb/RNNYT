@@ -20,11 +20,11 @@ export default class Search extends Component {
       <View style={globalStyles.COMMON_STYLES.pageContainer}>
         <View style={styles.search}>
           <TextInput
-            style={styles.input}>
+            style={styles.input}
             onChangeText={text => {this.setState({searchText:text})}}
             value={this.state.searchText}
             placeholder={'Search'}
-            placeholderTextColor={globalStyles.MUTED_COLOR}
+            placeholderTextColor={globalStyles.MUTED_COLOR}>
           </TextInput>
         </View>
       </View>
@@ -32,9 +32,9 @@ export default class Search extends Component {
   }
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
   input: {
-    heidght: 35,
+    height: 35,
     color: globalStyles.TEXT_COLOR,
     paddingHorizontal: 5,
     flex: 1,
