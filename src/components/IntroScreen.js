@@ -27,7 +27,7 @@ IntroScreen.propTypes = {
   navigator: PropTypes.shape({
     push: PropTypes.func
   }).isRequired,
-  nextScene: propTypes.objectOf(PropTypes.any)
+  nextScene: PropTypes.objectOf(PropTypes.any)
 }
 
 const styles = StyleSheet.create({

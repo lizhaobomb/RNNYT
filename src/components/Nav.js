@@ -28,6 +28,7 @@ export default class Nav extends Component {
       <Navigator
         initialRoute={INTRO_ROUTE}
         renderScene={this.renderScene}
+        navigationBar={this.renderNavigationBar()}
       />
     )
   }
@@ -37,7 +38,7 @@ export default class Nav extends Component {
       <Navigator.NavigationBar
         routeMapper={{
           LeftButton: this.renderLeftButton,
-          RightButton: () => null,
+          RightButton: this.renderRightButton,
           Title: this.renderTitle
         }}
         style={styles.navBar}
@@ -45,13 +46,29 @@ export default class Nav extends Component {
     )
   }
 
-  renderLeftButton(route, navigator, index) {
-    if (inde === 0) {
+  renderLeftButton(route, navigator, index, navState) {
+    if (index === 0) {
       return null
     }
     return (
       <TouchableOpacity
-        style={styles.leftButton}></TouchableOpacity>
+        style={styles.leftButton}
+        onPress={() => navigator.pop()}
+      >
+        <SmallText>Back</SmallText>
+      </TouchableOpacity>
+    )
+  }
+
+  renderRightButton(route, navigator, index, navState) {
+    return null
+  }
+
+  renderTitle(route, navigator, index, navState){
+    return (
+      <Title style={styles.title}>
+        {route.title}
+      </Title>
     )
   }
 
@@ -68,5 +85,12 @@ export default class Nav extends Component {
 const styles = StyleSheet.create({
   navBar: {
     backgroundColor: globalStyles.MUTED_COLOR
+  },
+  title: {
+    padding: 8,
+    backgroundColor: globalStyles.MUTED_COLORs
+  },
+  leftButton: {
+    padding: 12
   }
 })
