@@ -1,5 +1,7 @@
 import {createStore, applyMiddleware, combineReducers} from 'redux'
 import createLogger from 'redux-logger'
+import promiseMiddleware from 'redux-promise'
+
 import newsFeedReducer from './reducers/newsFeedReducer'
 import searchTermReducer from './reducers/searchTermReducer'
 
@@ -12,6 +14,6 @@ export default (initialState = {}) => (
       searchTerm: searchTermReducer
     }),
     initialState,
-    applyMiddleware(logger)
+    applyMiddleware(logger, promiseMiddleware)
   )
 )

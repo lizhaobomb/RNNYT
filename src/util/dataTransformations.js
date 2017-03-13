@@ -16,9 +16,20 @@ export const reshapeNewsData = news => (
     description: abstract || '',
     author: byline ? byline.replace('By ', '') : '',
     location: geo_facet.length > 0 ? geo_facet[0] : '',
-    imageUrl: getMultimediaUrlByFormat(multimedia, 'thumbLarger'),
+    imageUrl: getMultimediaUrlByFormat(multimedia, 'thumbLarge'),
     date: moment(published_date).format('MMM Do YYYY'),
     title,
     url
   }))
 )
+
+export const filterNewsBySearchTerm = (newsItems, searchTerm) => {
+  if (searchTerm.length === 0) {
+    return []
+  }
+  return newsItems.filter(({description, author, title}) => (
+    description.toLowerCase().indexOf(searchTerm) > -1 ||
+    author.toLowerCase().indexOf(searchTerm) > -1 ||
+    title.toLowerCase().indexOf(searchTerm) > -1
+  ))
+}

@@ -10,6 +10,7 @@ import {
 import * as globalStyles from '../styles/global'
 import SmallText from './SmallText'
 import NewsItem from './NewsItem'
+
 export default class NewsFeed extends Component {
 
   constructor(props){
@@ -54,7 +55,22 @@ export default class NewsFeed extends Component {
           renderRow={this.renderRow}
           style={this.props.listStyles}
         />
-        {this.renderModal()}
+        <Modal
+          visible={this.state.modalVisible}
+          onRequestClose={this.onModalClose}
+        >
+          <View style={styles.modalContent}>
+            <TouchableOpacity
+              onPress={this.onModalClose}
+              style={styles.closeButton}>
+              <SmallText>Close</SmallText>
+            </TouchableOpacity>
+            <WebView
+              scalesPageToFit
+              source={{uri:this.state.modalUrl}}
+            />
+          </View>
+        </Modal>
       </View>
     )
   }

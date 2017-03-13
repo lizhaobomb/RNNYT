@@ -6,11 +6,11 @@ import {
 import SmallText from './SmallText'
 import * as globalStyles from '../styles/global'
 
-const Byline = ({data, author, location}) => (
+const Byline = ({date, author, location}) => (
   <View>
     <View style={styles.row}>
       <SmallText>
-        {data}
+        {date}
       </SmallText>
       <SmallText>
         {author}
