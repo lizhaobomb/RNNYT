@@ -42,24 +42,24 @@ export default class HomeScreen extends Component {
         translucent={false}
         >
         <TabBarIOS.Item
-        selected={this.state.tab === 'newsFeed'}
-        onPress = {() => this.setState({tab: 'newsFeed'})}
-        badge={4}
-        systemIcon={'featured'}
+          selected={this.state.tab === 'newsFeed'}
+          onPress = {() => this.setState({tab: 'newsFeed'})}
+          badge={4}
+          systemIcon={'featured'}
         >
         <NewsFeedContainer />
         </TabBarIOS.Item>
         <TabBarIOS.Item
-        selected={this.state.tab === 'search'}
-        onPress = {() => this.setState({tab: 'search'})}
-        systemIcon={'search'}
+          selected={this.state.tab === 'search'}
+          onPress = {() => this.setState({tab: 'search'})}
+          systemIcon={'search'}
         >
         <SearchContainer />
         </TabBarIOS.Item>
         <TabBarIOS.Item
-        selected={this.state.tab === 'bookmarks'}
-        onPress = {() => this.setState({tab: 'bookmarks'})}
-        systemIcon={'bookmarks'}
+          selected={this.state.tab === 'bookmarks'}
+          onPress = {() => this.setState({tab: 'bookmarks'})}
+          systemIcon={'bookmarks'}
         >
         <Text>Bookmarks</Text>
         </TabBarIOS.Item>

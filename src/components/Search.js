@@ -36,7 +36,10 @@ export default class Search extends Component {
             placeholderTextColor={globalStyles.MUTED_COLOR}>
           </TextInput>
         </View>
-        <NewsFeed news={this.props.filteredNews} listStyles={{}} />
+        <NewsFeed
+          news={this.props.filteredNews}
+          listStyles={{}}
+          showLoadingSpinner={false} />
       </View>
     )
   }

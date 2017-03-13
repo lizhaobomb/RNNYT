@@ -13,7 +13,6 @@ import * as globalStyles from '../styles/global'
 export default class NewsItem extends Component {
 	constructor(props) {
 		super(props)
-		console.log(props)
 		this.onLongPress = this.onLongPress.bind(this)
 	}
 
