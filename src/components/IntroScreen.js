@@ -12,10 +12,10 @@ import * as globalStyles from '../styles/global'
 
 StatusBar.setBarStyle('light-content')
 
-const IntroScreen = ({navigator, nextScene}) => (
+const IntroScreen = ({push}) => (
   <View style={[globalStyles.COMMON_STYLES.pageContainer, styles.container]}>
     <TouchableOpacity
-      onPress={() => navigator.push(nextScene)}
+      onPress={() => push('home')}
     >
       <Title>React Native News Reader</Title>
       <AppText>Start Reading</AppText>
@@ -24,10 +24,7 @@ const IntroScreen = ({navigator, nextScene}) => (
 )
 
 IntroScreen.propTypes = {
-  navigator: PropTypes.shape({
-    push: PropTypes.func
-  }).isRequired,
-  nextScene: PropTypes.objectOf(PropTypes.any)
+  push: PropTypes.func.isRequired
 }
 
 const styles = StyleSheet.create({
