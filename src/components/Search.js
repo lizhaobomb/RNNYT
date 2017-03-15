@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import {
-  TextInput,
   View,
+  TextInput,
   StyleSheet
 } from 'react-native'
 import NewsFeed from './NewsFeed'
@@ -39,7 +39,12 @@ export default class Search extends Component {
         <NewsFeed
           news={this.props.filteredNews}
           listStyles={{}}
-          showLoadingSpinner={false} />
+          showLoadingSpinner={false}
+          modal={this.props.modal}
+          onModalOpen={this.props.onModalOpen}
+          onModalClose={this.props.onModalClose}
+          addBookmark={this.props.addBookmark}
+        />
       </View>
     )
   }
@@ -47,7 +52,10 @@ export default class Search extends Component {
 
 Search.propTypes = {
   filteredNews: PropTypes.arrayOf(PropTypes.object),
-  searchNews: PropTypes.func.isRequired
+  searchNews: PropTypes.func.isRequired,
+  modal: PropTypes.string,
+  onModalClose: PropTypes.func.isRequired,
+  onModalOpen: PropTypes.func.isRequired
 }
 
 const styles = StyleSheet.create({

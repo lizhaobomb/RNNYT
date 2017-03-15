@@ -3,6 +3,8 @@ import {reshapeNewsData, filterNewsBySearchTerm} from '../util/dataTransformatio
 
 const newsSelector = state => state.news
 
+const bookmarksSelector = state => state.bookmarks
+
 const reshapeNewsSelector = createSelector(
   [newsSelector],
   reshapeNewsData
@@ -11,6 +13,11 @@ const reshapeNewsSelector = createSelector(
 export const allNewsSelector = createSelector(
   [reshapeNewsSelector],
   newsItems => newsItems
+)
+
+export const bookmarkedNewsSelector = createSelector(
+  [allNewsSelector, bookmarksSelector],
+  (newsItems, bookmarks) => newsItems.filter(newsItems => bookmarks.indexOf(newsItems.url) > -1)
 )
 
 const searchTermSelector = state => state.searchTerm

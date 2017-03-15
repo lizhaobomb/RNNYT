@@ -7,12 +7,14 @@ import {
   TouchableOpacity,
   WebView,
   RefreshControl,
-  ActivityIndicator
+  ActivityIndicator,
+  NetInfo,
+  Linking
 } from 'react-native'
 import * as globalStyles from '../styles/global'
 import SmallText from './SmallText'
 import NewsItem from './NewsItem'
-
+import AppText from './AppText'
 export default class NewsFeed extends Component {
 
   constructor(props){
@@ -25,16 +27,33 @@ export default class NewsFeed extends Component {
       dataSource: this.ds.cloneWithRows(props.news),
       modalVisible: false,
       initialLoading: true,
-      refreshing: false
+      refreshing: false,
+      connected: true
     }
     this.onModalOpen = this.onModalOpen.bind(this)
     this.onModalClose = this.onModalClose.bind(this)
     this.renderRow = this.renderRow.bind(this)
     this.refresh = this.refresh.bind(this)
+    this.renderModal = this.renderModal.bind(this)
+    this.handleConnectivityChange = this.handleConnectivityChange.bind(this)
+  }
+
+  handleConnectivityChange(isConnected) {
+    this.setState ({
+      connect: isConnected
+    })
+    if (isConnected) {
+      this.refresh()
+    }
   }
 
   componentWillMount() {
+    NetInfo.isConnected.addEventListener('change', this.handleConnectivityChange)
     this.refresh()
+  }
+
+  componentWillUnmount() {
+    NetInfo.isConnected.removeEventListener('change', this.handleConnectivityChange)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -45,8 +64,8 @@ export default class NewsFeed extends Component {
   }
 
   refresh() {
-    if (this.props.loadNews) {
-      this.props.loadNews()
+    if (this.props.load) {
+      this.props.load()
     }
   }
 
@@ -57,6 +76,16 @@ export default class NewsFeed extends Component {
     } = this.props
 
     const {initialLoading, refreshing, dataSource} = this.state
+
+    if (!this.state.connected) {
+      return (
+        <View style={[globalStyles.COMMON_STYLES.pageContainer,styles.loadingContainer]}>
+          <AppText>
+            No Connection
+          </AppText>
+        </View>
+      )
+    }
 
     return (
       (
@@ -95,18 +124,25 @@ export default class NewsFeed extends Component {
     return (
       <Modal
         animationType={"slide"}
-        visible={this.state.modalVisible}
-        onRequestClose={this.onModalClose}
+        visible={this.props.modal !== undefined}
       >
         <View style={styles.modalContent}>
-          <TouchableOpacity
-            onPress={this.onModalClose}
-            style={styles.closeButton}>
+          <View style={styles.modalContent}>
+            <TouchableOpacity
+            onPress={this.props.onModalClose}
+            style={styles.modalButtons}>
             <SmallText>Close</SmallText>
-          </TouchableOpacity>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => Linking.openURL(this.props.modal)}
+              style={styles.modalButtons}
+            >
+              <SmallText>Open in Browser </SmallText>
+            </TouchableOpacity>
+          </View>
           <WebView
             scalesPageToFit
-            source={{uri:this.state.modalUrl}}
+            source={{uri:this.props.modal}}
           />
       </View>
     </Modal>
@@ -117,7 +153,8 @@ export default class NewsFeed extends Component {
     const index = parseInt(rest[1], 10)
     return (
       <NewsItem
-        onPress={() => this.onModalOpen(rowData.url)}
+        onPress={() => this.props.onModalOpen(rowData.url)}
+        onBookmark={() => this.props.addBookmark(rowData.url)}
         style={styles.newsItem}
         index={index}
         {...rowData}
@@ -143,8 +180,12 @@ export default class NewsFeed extends Component {
 NewsFeed.propTypes = {
   news: PropTypes.arrayOf(PropTypes.object),
   listStyles: View.propTypes.style,
-  loadNews: PropTypes.func,
-  showLoadingSpinner: PropTypes.bool
+  load: PropTypes.func,
+  showLoadingSpinner: PropTypes.bool,
+  modal: PropTypes.string,
+  onModalOpen: PropTypes.func.isRequired,
+  onModalClose: PropTypes.func.isRequired,
+  addBookmark: PropTypes.func.isRequired
 }
 
 NewsFeed.defaultProps = {
@@ -168,9 +209,10 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     backgroundColor: globalStyles.BG_COLOR
   },
-  closeButton: {
+  modalButtons: {
     paddingVertical: 5,
     paddingHorizontal: 10,
-    flexDirection: 'row'
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   }
 })

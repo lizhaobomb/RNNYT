@@ -13,7 +13,7 @@ export default class Nav extends Component {
     this.renderNavigationBar = this.renderNavigationBar.bind(this)
   }
 
-  renderNavigationBar() {
+  renderNavigationBar(sceneProps) {
     return (
       <Header
         style={styles.navigationbar}
@@ -40,6 +40,7 @@ export default class Nav extends Component {
         onNavigateBack={this.props.pop}
         navigationState={this.props.navigation}
         renderScene={this.renderScene}
+        renderHeader={this.renderNavigationBar}
         style={styles.cardStack}
       />
     )

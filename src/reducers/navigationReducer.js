@@ -1,11 +1,13 @@
-import HomeScreen from '../components/HomeScreen'
+import HomeScreenContainer from '../containers/HomeScreenContainer'
 import IntroScreen from '../components/IntroScreen'
 
 import {NavigationExperimental} from 'react-native'
 import {
   NAVIGATION_PUSH,
   NAVIGATION_POP,
-  NAVIGATION_TAB
+  NAVIGATION_TAB,
+  NAVIGATION_OPEN_MODAL,
+  NAVIGATION_CLOSE_MODAL
 } from '../actions/actionTypes'
 
 const {StateUtils} = NavigationExperimental;
@@ -14,12 +16,12 @@ const routes = {
   home: {
     key : 'home',
     title: 'RNNYT',
-    component: HomeScreen,
+    component: HomeScreenContainer,
     index: 0,
     routes: [
-      {key: 'newsFeed'},
+      {key: 'newsFeed', modal: undefined},
       {key: 'search'},
-      {key: 'bookmark'}
+      {key: 'bookmarks'}
     ]
   },
 
@@ -45,6 +47,19 @@ export default (state = initialState, action = {}) => {
   } else if(action.type === NAVIGATION_TAB) {
     const homeState = StateUtils.get(state, 'home')
     const updateHomeState = StateUtils.jumpTo(homeState, action.payload)
+    return StateUtils.replaceAt(state, 'home', updateHomeState)
+  } else if(action.type === NAVIGATION_OPEN_MODAL) {
+    const homeState = StateUtils.get(state, 'home')
+    const openTabState = homeState.routes[homeState.index]
+    const updateTabState = {...openTabState, modal: action.payload}
+    const updateHomeState = StateUtils.replaceAt(homeState, openTabState.key, updateTabState)
+    console.log(updateHomeState)
+    return StateUtils.replaceAt(state, 'home', updateHomeState)
+  } else if(action.type === NAVIGATION_CLOSE_MODAL) {
+    const homeState = StateUtils.get(state, 'home')
+    const openTabState = homeState.routes[homeState.index]
+    const updateTabState = {...openTabState, modal: undefined}
+    const updateHomeState = StateUtils.replaceAt(homeState, openTabState.key, updateTabState)
     return StateUtils.replaceAt(state, 'home', updateHomeState)
   }
   return state
