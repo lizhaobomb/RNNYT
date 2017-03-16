@@ -8,6 +8,7 @@ export const MUTED_COLOR = '#8e8786'
 export const LINK_COLOR = '#48e9d9'
 export const ACCENT_COLORS = ['#d31d65', '#751c53', '#c248c0', '#7d6e8b',
 '#bbc6f7']
+export const LIGHT_OVERLAY_COLOR = '#fff2'
 
 export const COMMON_STYLES = StyleSheet.create({
   text: {

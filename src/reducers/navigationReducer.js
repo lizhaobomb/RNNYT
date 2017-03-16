@@ -1,5 +1,6 @@
 import HomeScreenContainer from '../containers/HomeScreenContainer'
 import IntroScreen from '../components/IntroScreen'
+import Onboarding from '../components/Onboarding'
 
 import {NavigationExperimental} from 'react-native'
 import {
@@ -29,6 +30,11 @@ const routes = {
     key: 'intro',
     title: 'Welcome',
     component: IntroScreen
+  },
+
+  onboarding: {
+    key: 'onboarding',
+    component: Onboarding
   }
 }
 
