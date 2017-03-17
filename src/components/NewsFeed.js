@@ -11,10 +11,11 @@ import {
   NetInfo,
   Linking
 } from 'react-native'
-import * as globalStyles from '../styles/global'
-import SmallText from './SmallText'
 import NewsItem from './NewsItem'
+import SmallText from './SmallText'
 import AppText from './AppText'
+import * as globalStyles from '../styles/global'
+
 export default class NewsFeed extends Component {
 
   constructor(props){
@@ -22,20 +23,49 @@ export default class NewsFeed extends Component {
     this.ds = new ListView.DataSource({
       rowHasChanged: (row1, row2) => row1.title !== row2.title
     })
-
     this.state = {
       dataSource: this.ds.cloneWithRows(props.news),
-      modalVisible: false,
       initialLoading: true,
+      modalVisible: false,
       refreshing: false,
       connected: true
     }
-    this.onModalOpen = this.onModalOpen.bind(this)
-    this.onModalClose = this.onModalClose.bind(this)
+
     this.renderRow = this.renderRow.bind(this)
+    this.onModalClose = this.onModalClose.bind(this)
+    this.onModalOpen = this.onModalOpen.bind(this)
     this.refresh = this.refresh.bind(this)
-    this.renderModal = this.renderModal.bind(this)
     this.handleConnectivityChange = this.handleConnectivityChange.bind(this)
+  }
+
+  componentWillMount() {
+    NetInfo.isConnected.addEventListener('change', this.handleConnectivityChange)
+    this.refresh()
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRows(nextProps.news),
+      initialLoading: false
+    })
+  }
+
+  componentWillUnmount() {
+    NetInfo.isConnected.removeEventListener('change', this.handleConnectivityChange)
+  }
+
+  onModalClose() {
+    this.setState({
+      modalVisible: false,
+      modalUrl: undefined
+    })
+  }
+
+  onModalOpen(url) {
+    this.setState({
+      modalVisible: true,
+      modalUrl: url
+    })
   }
 
   handleConnectivityChange(isConnected) {
@@ -47,26 +77,52 @@ export default class NewsFeed extends Component {
     }
   }
 
-  componentWillMount() {
-    NetInfo.isConnected.addEventListener('change', this.handleConnectivityChange)
-    this.refresh()
-  }
-
-  componentWillUnmount() {
-    NetInfo.isConnected.removeEventListener('change', this.handleConnectivityChange)
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      dataSource: this.state.dataSource.cloneWithRows(nextProps.news),
-      initialLoading: false
-    })
-  }
-
   refresh() {
     if (this.props.load) {
       this.props.load()
     }
+  }
+
+  renderModal() {
+    return (
+      <Modal
+        animationType={"slide"}
+        visible={this.props.modal !== undefined}
+        onRequestClose={this.props.onModalClose}
+      >
+        <View style={styles.modalContent}>
+          <View style={styles.modalButtons}>
+            <TouchableOpacity
+              onPress={this.props.onModalClose}
+            >
+              <SmallText>Close</SmallText>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => Linking.openURL(this.props.modal)}
+            >
+              <SmallText>Open in Browser</SmallText>
+            </TouchableOpacity>
+          </View>
+          <WebView
+            scalesPageToFit
+            source={{uri:this.props.modal}}
+          />
+        </View>
+      </Modal>
+    )
+  }
+
+  renderRow(rowData, ...rest) {
+    const index = parseInt(rest[1], 10)
+    return (
+      <NewsItem
+        onPress={() => this.props.onModalOpen(rowData.url)}
+        onBookmark={() => this.props.addBookmark(rowData.url)}
+        style={styles.newsItem}
+        index={index}
+        {...rowData}
+      />
+    )
   }
 
   render(){
@@ -74,7 +130,6 @@ export default class NewsFeed extends Component {
       listStyles = globalStyles.COMMON_STYLES.pageContainer,
       showLoadingSpinner
     } = this.props
-
     const {initialLoading, refreshing, dataSource} = this.state
 
     if (!this.state.connected) {
@@ -119,62 +174,6 @@ export default class NewsFeed extends Component {
       )
     )
   }
-
-  renderModal() {
-    return (
-      <Modal
-        animationType={"slide"}
-        visible={this.props.modal !== undefined}
-      >
-        <View style={styles.modalContent}>
-          <View style={styles.modalContent}>
-            <TouchableOpacity
-            onPress={this.props.onModalClose}
-            style={styles.modalButtons}>
-            <SmallText>Close</SmallText>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => Linking.openURL(this.props.modal)}
-              style={styles.modalButtons}
-            >
-              <SmallText>Open in Browser </SmallText>
-            </TouchableOpacity>
-          </View>
-          <WebView
-            scalesPageToFit
-            source={{uri:this.props.modal}}
-          />
-      </View>
-    </Modal>
-    )
-  }
-
-  renderRow(rowData, ...rest) {
-    const index = parseInt(rest[1], 10)
-    return (
-      <NewsItem
-        onPress={() => this.props.onModalOpen(rowData.url)}
-        onBookmark={() => this.props.addBookmark(rowData.url)}
-        style={styles.newsItem}
-        index={index}
-        {...rowData}
-      />
-    )
-  }
-
-  onModalOpen(url) {
-    this.setState({
-      modalVisible: true,
-      modalUrl: url
-    })
-  }
-
-  onModalClose() {
-    this.setState({
-      modalVisible: false,
-      modalUrl: undefined
-    })
-  }
 }
 
 NewsFeed.propTypes = {
@@ -201,7 +200,7 @@ const styles = StyleSheet.create({
   },
   loadingContainer: {
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   modalContent: {
     flex: 1,
