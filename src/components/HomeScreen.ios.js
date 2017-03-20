@@ -9,6 +9,9 @@ import SearchContainer from '../containers/SearchContainer'
 import BookmarksContainer from '../containers/BookmarksContainer'
 import * as globalStyles from '../styles/global'
 
+import Icon from 'react-native-vector-icons/EvilIcons'
+import Profile from './Profile'
+
 //set the status bar for ios to light
 StatusBar.setBarStyle('light-content')
 
@@ -29,28 +32,42 @@ export default class HomeScreen extends Component {
         tintColor={globalStyles.LINK_COLOR}
         translucent={false}
         >
-        <TabBarIOS.Item
+        <Icon.TabBarItemIOS
           selected={selectedTab === 'newsFeed'}
           onPress = {() => tab('newsFeed')}
-          badge={4}
-          systemIcon={'featured'}
+          iconName={'star'}
+          title={'News'}
         >
-        <NewsFeedContainer />
-        </TabBarIOS.Item>
-        <TabBarIOS.Item
+          <NewsFeedContainer />
+        </Icon.TabBarItemIOS>
+
+        <Icon.TabBarItemIOS
           selected={selectedTab === 'search'}
           onPress={() => tab('search')}
-          systemIcon={'search'}
+          iconName={'search'}
+          title={'Search'}
         >
-        <SearchContainer />
-        </TabBarIOS.Item>
-        <TabBarIOS.Item
+          <SearchContainer />
+        </Icon.TabBarItemIOS>
+
+        <Icon.TabBarItemIOS
           selected={selectedTab === 'bookmarks'}
           onPress = {() => tab('bookmarks')}
-          systemIcon={'bookmarks'}
+          iconName={'paperclip'}
+          title={'Bookmarks'}
         >
           <BookmarksContainer />
-        </TabBarIOS.Item>
+        </Icon.TabBarItemIOS>
+
+        <Icon.TabBarItemIOS
+          selected={selectedTab === 'profile'}
+          onPress = {() => tab('profile')}
+          iconName={'user'}
+          title={'Profile'}
+        >
+          <Profile />
+        </Icon.TabBarItemIOS>
+
       </TabBarIOS>
     )
   }

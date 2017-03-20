@@ -46,6 +46,7 @@
 		BC5BCE38122D4353988C0D3F /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4D0B0100A099413E9FFA4B02 /* Entypo.ttf */; };
 		C4A219385C9C4B8D88BBCB5F /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0695B81C9B884FD782DC419B /* Ionicons.ttf */; };
 		EF3088A2DD124579A6A0D38E /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A04A2FE51A8441538DF7C9C5 /* Foundation.ttf */; };
+		F16FB56F1E7FD29800BF8F03 /* ImageLibraryManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F16FB56E1E7FD29800BF8F03 /* ImageLibraryManager.m */; };
 		F6B345C52B65492293BF5F97 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 40A973F124334398835D3179 /* EvilIcons.ttf */; };
 /* End PBXBuildFile section */
 
@@ -284,6 +285,8 @@
 		8E765C3C8CE94F83B506DEAC /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		9353217F8C7443CF87FBA64F /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		A04A2FE51A8441538DF7C9C5 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
+		F16FB56D1E7FD29800BF8F03 /* ImageLibraryManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageLibraryManager.h; path = RNNYT/ImageLibraryManager.h; sourceTree = "<group>"; };
+		F16FB56E1E7FD29800BF8F03 /* ImageLibraryManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImageLibraryManager.m; path = RNNYT/ImageLibraryManager.m; sourceTree = "<group>"; };
 		F6B13708CE1246C2B541567E /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -427,6 +430,8 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				F16FB56D1E7FD29800BF8F03 /* ImageLibraryManager.h */,
+				F16FB56E1E7FD29800BF8F03 /* ImageLibraryManager.m */,
 			);
 			name = RNNYT;
 			sourceTree = "<group>";
@@ -987,6 +992,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F16FB56F1E7FD29800BF8F03 /* ImageLibraryManager.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);

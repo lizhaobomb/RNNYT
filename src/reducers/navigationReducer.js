@@ -22,7 +22,8 @@ const routes = {
     routes: [
       {key: 'newsFeed', modal: undefined},
       {key: 'search'},
-      {key: 'bookmarks'}
+      {key: 'bookmarks'},
+      {key: 'profile'}
     ]
   },
 
