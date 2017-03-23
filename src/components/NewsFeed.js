@@ -116,7 +116,7 @@ export default class NewsFeed extends Component {
     const index = parseInt(rest[1], 10)
     return (
       <NewsItem
-        onPress={() => this.props.onModalOpen(rowData.url)}
+        onPress={() => {requestAnimationFrame(() => this.props.onModalOpen(rowData.url))}}
         onBookmark={() => this.props.addBookmark(rowData.url)}
         style={styles.newsItem}
         index={index}
